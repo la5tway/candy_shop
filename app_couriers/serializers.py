@@ -35,17 +35,17 @@ class CourierSerializer(serializers.ModelSerializer):
             fields = set(self.fields)
             if isinstance(data, list):
                 for courier in data:
-                    in_ = set(courier.keys())
-                    missing = fields - in_
-                    extra = in_ - fields
+                    fields_in = set(courier.keys())
+                    missing = fields - fields_in
+                    extra = fields_in - fields
                     pk = courier.get(self.id_field_name)
                     err = self.check_fields(missing, extra, pk)
                     errors.append(err) if len(err) else None
             elif isinstance(data, dict):
                 if "data" in data.keys():
                     return
-                in_ = set(data.keys())
-                extra = in_ - fields
+                fields_in = set(data.keys())
+                extra = fields_in - fields
                 pk = self.instance.pk
                 err = {}
                 self.check_extra(extra, err, pk)
