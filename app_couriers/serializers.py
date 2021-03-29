@@ -64,4 +64,3 @@ class SingleCourierSerializer(CourierSerializer):
     class Meta:
         model = Couriers
         fields = '__all__'
-        depth = 1
