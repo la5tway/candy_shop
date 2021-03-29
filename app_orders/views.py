@@ -59,13 +59,14 @@ class OrdersAssign(APIView):
         )
         response = dict(orders=response_orders)
         if assigned:
-            working_hours = [
-                "-".join([strftime(struct_time)
-                for struct_time in working_interval])
-                for working_interval in working_hours
-            ]
-            courier.free_working_hours = working_hours
-            courier.save()
+            # EXPERIMENT
+            # working_hours = [
+            #     "-".join([strftime(struct_time)
+            #     for struct_time in working_interval])
+            #     for working_interval in working_hours
+            # ]
+            # courier.free_working_hours = working_hours
+            # courier.save()
             response["assign_time"] = assign_time
 
         return Response(response, status=status.HTTP_200_OK)
