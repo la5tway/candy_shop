@@ -31,6 +31,7 @@ def _unassigned_orders_in_time(orders, wh, courier = None, assign_time = None):
 def unassign_order(order):
     order.courier = None
     order.courier_type = None
+    order.time_of_assign = None
     order.save()
 
 def assign_order(response_orders, order, courier, assign_time):
