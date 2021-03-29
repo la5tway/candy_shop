@@ -1,5 +1,4 @@
 from django.apps import AppConfig
 
-
 class CandyConfig(AppConfig):
-    name = 'orders'
+    name = 'app_orders'

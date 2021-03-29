@@ -3,6 +3,8 @@ from .views import (
     CouriersView,
     SingleCouriersView
 )
+
+
 app_name = 'app_couriers'
 
 

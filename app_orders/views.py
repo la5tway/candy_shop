@@ -10,7 +10,7 @@ from utils.orders_helpers import assigned_orders
 from utils.time_helpers import strftime
 
 from .models import Orders, Couriers
-from .serializers import OrderSerializer, OrderAllSerializer
+from .serializers import OrderSerializer, SingleOrderSerializer
 
 
 class OrdersView(APIView):
@@ -36,7 +36,7 @@ class OrdersView(APIView):
 
 class SingleOrdersView(RetrieveUpdateDestroyAPIView):
     queryset = Orders.objects.all().prefetch_related("courier")
-    serializer_class = OrderAllSerializer
+    serializer_class = SingleOrderSerializer
 
 
 class OrdersAssign(APIView):
