@@ -136,3 +136,4 @@ dmypy.json
 #
 /shop/
 *.sqlite3
+*/migrations/
