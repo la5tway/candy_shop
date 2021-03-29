@@ -13,44 +13,45 @@ class CourierSerializer(serializers.ModelSerializer):
 
         self.validate_data(data)
 
-    def check_extra(self, extra, err, id_):
-        if len(extra) !=0:
-            err["id"] = id_
+    def check_extra(self, extra, err, pk):
+        if len(extra):
+            err["id"] = pk
             err["extra fields"] = [field for field in extra]
 
-    def check_missing(self, missing, err, id_):
-        if len(missing) != 0:
-            err["id"] = id_
+    def check_missing(self, missing, err, pk):
+        if len(missing):
+            err["id"] = pk
             err["missing fields"] = [field for field in missing]
 
-    def check_fields(self, missing, extra, id_):
+    def check_fields(self, missing, extra, pk):
         err = {}
-        self.check_extra(extra, err, id_)
-        self.check_missing(missing, err, id_)
+        self.check_extra(extra, err, pk)
+        self.check_missing(missing, err, pk)
         return err
 
     def validate_data(self, data):
-        errors = []
-        fields = set(self.fields)
-        if data and isinstance(data, list):
-            for courier in data:
-                in_ = set(courier.keys())
-                missing = fields - in_
+        if data:
+            errors = []
+            fields = set(self.fields)
+            if isinstance(data, list):
+                for courier in data:
+                    in_ = set(courier.keys())
+                    missing = fields - in_
+                    extra = in_ - fields
+                    pk = courier.get(self.id_field_name)
+                    err = self.check_fields(missing, extra, pk)
+                    errors.append(err) if len(err) else None
+            elif isinstance(data, dict):
+                if "data" in data.keys():
+                    return
+                in_ = set(data.keys())
                 extra = in_ - fields
-                id_ = courier.get(self.id_field_name)
-                err = self.check_fields(missing, extra, id_)
+                pk = self.instance.pk
+                err = {}
+                self.check_extra(extra, err, pk)
                 errors.append(err) if len(err) else None
-        elif data and isinstance(data, dict):
-            if "data" in data.keys():
-                return
-            in_ = set(data.keys())
-            extra = in_ - fields
-            id_ = self.instance.pk
-            err = {}
-            self.check_extra(extra, err, id_)
-            errors.append(err) if len(err) else None
-        if len(errors):
-            raise ValidationError(detail=errors)
+            if len(errors):
+                raise ValidationError(detail=errors)
 
     class Meta:
         model = Couriers
