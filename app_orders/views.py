@@ -34,7 +34,7 @@ class OrdersView(APIView):
             return Response({"validation_error":{"orders":exc.detail}}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class SingleOrdersView(RetrieveUpdateDestroyAPIView):
+class SingleOrdersView(RetrieveUpdateDestroyAPIView, APIView):
     queryset = Orders.objects.all().prefetch_related("courier")
     serializer_class = SingleOrderSerializer
 
