@@ -8,7 +8,7 @@ class Orders(models.Model):
         verbose_name='Вес заказа'
     )
     region = models.PositiveIntegerField(blank=True, null=True, verbose_name='Регион')
-    delivery_hours = models.JSONField(verbose_name='Часы работы', default=list)
+    delivery_hours = models.JSONField(verbose_name='Интервал времени доставки', default=list)
     time_of_delivered = models.DateTimeField(verbose_name="ДТ доставки", blank=True, null=True)
     courier = models.ForeignKey(
         verbose_name="Курьер",
