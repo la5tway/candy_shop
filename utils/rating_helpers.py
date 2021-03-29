@@ -10,9 +10,9 @@ def avg_delivery_time_in_region(orders):
             prev_time = order.time_of_assign
         curr_time = order.time_of_delivered
         times.append((curr_time - prev_time).seconds)
-    len_ = len(times)
-    if len_:
-        return sum(times) / len_
+    times_len = len(times)
+    if times_len:
+        return sum(times) / times_len
 
 
 def calc_rating(courier):
