@@ -48,7 +48,7 @@ def assigned_orders(orders, working_hours, courier):
     return *unasigned_orders_in_time, assign_time
 
 def unassigned_orders(courier, data):
-    _orders = courier.orders.all()
+    _orders = courier.orders.filter(is_delivered=False)
     if "courier_type" in data:
         new_weight = WEIGHT_MAP[data["courier_type"]]
         if new_weight < WEIGHT_MAP[courier.courier_type]:
