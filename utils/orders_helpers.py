@@ -3,7 +3,7 @@ import datetime
 from .time_helpers import strptime, check_intervals
 from .mappings import WEIGHT_MAP
 
-def _unasigned_orders_in_time(orders, wh, courier = None, assign_time = None):
+def _unassigned_orders_in_time(orders, wh, courier = None, assign_time = None):
     assigned = False
     response_orders: list = []
     working_hours: list = [
@@ -42,7 +42,7 @@ def assign_order(response_orders, order, courier, assign_time):
 
 def assigned_orders(orders, working_hours, courier):
     assign_time: datetime.datetime = datetime.datetime.now()
-    unasigned_orders_in_time = _unasigned_orders_in_time(
+    unasigned_orders_in_time = _unassigned_orders_in_time(
         orders, working_hours, courier, assign_time
     )
     return *unasigned_orders_in_time, assign_time
@@ -64,4 +64,4 @@ def unassigned_orders(courier, data):
                 unassign_order(order)
     if "working_hours" in data:
         new_wh = data["working_hours"]
-        _unasigned_orders_in_time(_orders, new_wh)
+        _unassigned_orders_in_time(_orders, new_wh)
